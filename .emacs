@@ -1,17 +1,21 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+(split-window-horizontally)
 
-(setq undo-limit 20000000)
-(setq undo-strong-limit 40000000)
 
+(setq-default truncate-lines t)
+(setq truncate-partial-width-windows nil)
+(setq next-line-add-newlines nil)
 (setq inhibit-splash-screen   t)
 (setq inhibit-startup-message t)
+(setq use-dialog-box     nil)
+(setq redisplay-dont-pause t)
+(setq ring-bell-function 'ignore)
+(setq undo-limit 20000000)
+(setq undo-strong-limit 40000000)
+(setq scroll-step 1)
 
-(global-hl-line-mode 1)
-(set-face-background 'hl-line "midnight blue")
 
-(tool-bar-mode 0)
-
-(setq fixme-modes '(c++-mode c-mode emacs-lisp-mode))
+(setq fixme-modes '(c++-mode c-mode emacs-lisp-mode python-mode))
 (make-face 'font-lock-fixme-face)
 (make-face 'font-lock-note-face)
 (mapc (lambda (mode)
@@ -24,19 +28,21 @@
 (modify-face 'font-lock-note-face "Dark green" nil nil t nil t nil nil)
 
 
-; Smooth scroll
-(setq scroll-step 1)
-; Clock
+(interactive)
 (display-time)
+(tooltip-mode      -1)
+(menu-bar-mode     -1)
+(tool-bar-mode     -1)
+(scroll-bar-mode   -1)
+(blink-cursor-mode -1)
+(set-foreground-color "burlywood3")
+(set-background-color "#161616")
+(set-cursor-color "#40FF40")
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "midnight blue")
 
-; Startup windowing
-(setq next-line-add-newlines nil)
-(setq-default truncate-lines t)
-(setq truncate-partial-width-windows nil)
-(split-window-horizontally)
 
-;; Set font parameters
-(set-frame-font "Inconsolata-13")
+(set-frame-font "Inconsolata-12.5")
 (set-face-attribute 'font-lock-builtin-face nil :foreground "#DAB98F")
 (set-face-attribute 'font-lock-comment-face nil :foreground "gray50")
 (set-face-attribute 'font-lock-constant-face nil :foreground "olive drab")
@@ -47,18 +53,35 @@
 (set-face-attribute 'font-lock-type-face nil :foreground "burlywood3")
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3")
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(delete-selection-mode t)
 
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/") t)
+
+(package-initialize)
+
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+
+(use-package which-key
+  :ensure t
+  :config (which-key-mode))
+
+
+(use-package auto-complete
+  :ensure t
+  :init
+  (progn
+    (ac-config-default)
+    (global-auto-complete-mode t)))
+
+   
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(auto-save-default nil)
  '(auto-save-interval 0)
  '(auto-save-list-file-prefix nil)
@@ -77,27 +100,10 @@
  '(mouse-wheel-scroll-amount (quote (15)))
  '(package-selected-packages
    (quote
-    (auto-complete counsel swiper which-key typing-game 2048-game quiz dark-souls company-irony-c-headers irony-eldoc company-irony company)))
+    (gh-md auto-complete counsel swiper typing-game 2048-game quiz company-irony-c-headers irony-eldoc company-irony company)))
  '(version-control nil))
 
 
-(interactive)
-(tooltip-mode      -1)
-(menu-bar-mode     -1)
-(tool-bar-mode     -1)
-(scroll-bar-mode   -1)
-(blink-cursor-mode -1)
-(setq use-dialog-box     nil)
-(setq redisplay-dont-pause t)
-(setq ring-bell-function 'ignore)
-(set-foreground-color "burlywood3")
-(set-background-color "#161616")
-(set-cursor-color "#40FF40")
-
-;; Delete selection
-(delete-selection-mode t)
-
-;; IDO plugin
 (require 'ido)
 (ido-mode                      t)
 (icomplete-mode                t)
@@ -105,57 +111,7 @@
 (setq ido-vitrual-buffers      t)
 (setq ido-enable-flex-matching t)
 
-;;python-mode for python3 obv
-;;(when (load "flymake" t)
-;;  (defun flymake-pylint-init ()
-;;    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-;;                       'flymake-create-temp-inplace))
-;;           (local-file (file-relative-name
-;;                        temp-file
-;;                        (file-name-directory buffer-file-name))))
-;;      (list "epylint" (list local-file))))
 
-;;  (add-to-list 'flymake-allowed-file-name-masks
-;;               '("\\.py\\'" flymake-pylint-init)))
-;;
-;;(add-hook 'python-mode-hook 'flymake-mode)
- 
-
-(require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (when no-ssl
-    (warn "\
-Your version of Emacs does not support SSL connections,
-which is unsafe because it allows man-in-the-middle attacks.
-There are two things you can do about this warning:
-1. Install an Emacs version that does support SSL and be safe.
-2. Remove this warning from your init file so you won't see it again."))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
-(package-initialize)
-
-(setq inferior-lisp-program "sbcl --noinform --no-linedit")
-
-;;which-key mode
-(add-to-list 'load-path "path/to/which-key.el")
-(require 'which-key)
-(which-key-mode)
-
-(use-package auto-complete
-  :ensure t
-  :init
-  (progn
-    (ac-config-default)
-    (global-auto-complete-mode t)
-    ))
-
-;;swipe-mode
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
