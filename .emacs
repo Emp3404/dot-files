@@ -1,14 +1,14 @@
-;;;; Emacs config
+;;; Emacs config
 ;;;; M.Akhmadullin
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-
+;; (split-window-horizontally)
 (setq-default truncate-lines t)
 (setq truncate-partial-width-windows nil)
 (setq next-line-add-newlines nil)
-(setq inhibit-splash-screen   t)
+(setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
-(setq use-dialog-box     nil)
+(setq use-dialog-box nil)
 (setq redisplay-dont-pause t)
 (setq ring-bell-function 'ignore)
 (setq undo-limit 20000000)
@@ -16,6 +16,7 @@
 (setq scroll-step 1)
 (setq default-tab-size 4)
 (setq default-offset 4)
+;;(setq-default mode-line-format nil)
 
 (setq fixme-modes '(c++-mode c-mode emacs-lisp-mode python-mode))
 (make-face 'font-lock-todo-face)
@@ -29,8 +30,8 @@
 	   ("\\<\\(WARNING\\)" 1 'font-lock-warning-face t)
 	   ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
       fixme-modes)
-(modify-face 'font-lock-todo-face "Red" nil nil t nil t nil nil)
-(modify-face 'font-lock-warning-face "gold1" nil nil t nil t nil nil)
+(modify-face 'font-lock-todo-face "red3" nil nil t nil t nil nil)
+(modify-face 'font-lock-warning-face "gold3" nil nil t nil t nil nil)
 (modify-face 'font-lock-note-face "Dark green" nil nil t nil t nil nil)
 
 (interactive)
@@ -41,13 +42,15 @@
 (scroll-bar-mode   -1)
 (blink-cursor-mode -1)
 (set-foreground-color "burlywood3")
-(set-background-color "#161616")
+;;(set-background-color "#161616")
+(set-background-color "gray20")
 (set-cursor-color "#40FF40")
 (global-hl-line-mode 1)
 (column-number-mode)
 (set-face-background 'hl-line "midnight blue")
 
-(set-frame-font (font-spec :family "Inconsolata" :size 17) nil t)
+;;(set-frame-font (font-spec :family "Inconsolata" :size 17) nil t)
+(set-frame-font (font-spec :family "Droid Sans Mono" :size 15) nil t)
 (set-face-attribute 'font-lock-builtin-face nil :foreground "#DAB98F")
 (set-face-attribute 'font-lock-comment-face nil :foreground "gray50")
 (set-face-attribute 'font-lock-constant-face nil :foreground "olive drab")
@@ -60,7 +63,6 @@
 
 (delete-selection-mode t)
 
-
 (if (not (require 'package nil t))
     (message "'package' not found")
   (setq package-enable-at-startup nil)
@@ -68,7 +70,7 @@
 	       '("melpa" . "https://melpa.org/packages/") t))
 
 (package-initialize)
-   
+
 (custom-set-variables
  '(auto-save-default nil)
  '(auto-save-interval 0)
@@ -88,7 +90,7 @@
  '(mouse-wheel-scroll-amount (quote (5)))
  '(package-selected-packages
    (quote
-    (magit lua-mode docker-tramp cpp-auto-include flymd gh-md auto-complete counsel swiper typing-game company-irony-c-headers irony-eldoc company-irony company)))
+    (flycheck-pycheckers flycheck-irony company-c-headers magit lua-mode docker-tramp cpp-auto-include flymd gh-md auto-complete counsel swiper typing-game company-irony-c-headers irony-eldoc company-irony company)))
  '(version-control nil))
 
 
@@ -125,21 +127,20 @@
 
 ;; (setq debug-on-entry)
 ;; (setq url-debug t)
-(custom-set-faces
- )
+(custom-set-faces)
 
 (defun py-hook ()
   (defun py-source-format ()
-     "Format the given file as a source file."
-     (interactive)
-     (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
-     (insert "''' ========================================================================\n")
-     (insert "   $File: $\n")
-     (insert "   $Date: $\n")
-     (insert "   $Revision: $\n")
-     (insert "   $Creator: Marsel Akhmadullin $\n")
-     (insert "   ======================================================================== '''\n\n")
-  )
+    "Format the given file as a source file."
+    (interactive)
+    (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
+    (insert "''' ========================================================================\n")
+    (insert "   $File: $\n")
+    (insert "   $Date: $\n")
+    (insert "   $Revision: $\n")
+    (insert "   $Creator: Marsel Akhmadullin $\n")
+    (insert "   ======================================================================== '''\n\n")
+    )
 
   (cond ((file-exists-p buffer-file-name) t)
         ((string-match "[.]py" buffer-file-name) (py-source-format)))
@@ -148,42 +149,42 @@
 
 (defun c-hook ()
   (defun header-format ()
-     "Format the given file as a header file."
-     (interactive)
-     (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
-     (insert "#if !defined(")
-     (push-mark)
-     (insert BaseFileName)
-     (upcase-region (mark) (point))
-     (pop-mark)
-     (insert "_H)\n")
-     (insert "/* ========================================================================\n")
-     (insert "   $File: $\n")
-     (insert "   $Date: $\n")
-     (insert "   $Revision: $\n")
-     (insert "   $Creator: Marsel Akhmadullin $\n")
-     (insert "   ======================================================================== */\n")
-     (insert "\n")
-     (insert "#define ")
-     (push-mark)
-     (insert BaseFileName)
-     (upcase-region (mark) (point))
-     (pop-mark)
-     (insert "_H\n")
-     (insert "#endif")
-  )
+    "Format the given file as a header file."
+    (interactive)
+    (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
+    (insert "#if !defined(")
+    (push-mark)
+    (insert BaseFileName)
+    (upcase-region (mark) (point))
+    (pop-mark)
+    (insert "_H)\n")
+    (insert "/* ========================================================================\n")
+    (insert "   $File: $\n")
+    (insert "   $Date: $\n")
+    (insert "   $Revision: $\n")
+    (insert "   $Creator: Marsel Akhmadullin $\n")
+    (insert "   ======================================================================== */\n")
+    (insert "\n")
+    (insert "#define ")
+    (push-mark)
+    (insert BaseFileName)
+    (upcase-region (mark) (point))
+    (pop-mark)
+    (insert "_H\n")
+    (insert "#endif")
+    )
 
   (defun source-format ()
-     "Format the given file as a source file."
-     (interactive)
-     (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
-     (insert "/* ========================================================================\n")
-     (insert "   $File: $\n")
-     (insert "   $Date: $\n")
-     (insert "   $Revision: $\n")
-     (insert "   $Creator: Marsel Akhmadullin $\n")
-     (insert "   ======================================================================== */\n\n")
-  )
+    "Format the given file as a source file."
+    (interactive)
+    (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
+    (insert "/* ========================================================================\n")
+    (insert "   $File: $\n")
+    (insert "   $Date: $\n")
+    (insert "   $Revision: $\n")
+    (insert "   $Creator: Marsel Akhmadullin $\n")
+    (insert "   ======================================================================== */\n\n")
+    )
 
   (cond ((file-exists-p buffer-file-name) t)
         ((string-match "[.]hpp" buffer-file-name) (header-format))
@@ -194,3 +195,32 @@
 
 (add-hook 'c-mode-common-hook 'c-hook)
 (add-hook 'python-mode-hook 'py-hook)
+
+;; company-irony + flycheck-mode enabling
+(require 'company)
+(require 'flycheck)
+
+(defun cppModeHook ()
+  (interactive)
+  (flycheck-mode)
+  (company-mode))
+
+(setq company-idle-delay 0)
+(add-to-list 'company-backends 'company-c-headers)
+(eval-after-load 'company
+  '(add-to-list 'company-backends 'company-irony))
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+(add-hook 'c++-mode-hook 'cppModeHook)
+
+;; todo file load
+;; TODO(marsel): change txt to org format cuz beauty
+(find-file "~/Documents/todo.txt")
+
+;; TODO(marsel): append flycheck for python, bash, lua modes
+;; flycheck-pycheck
+;(global-flycheck-mode 0)
+;(with-eval-after-load 'flycheck
+;  (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
+
+;; TODO(marsel): install and configure auctex
