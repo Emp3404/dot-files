@@ -1,0 +1,16 @@
+(defun py-hook ()
+  (defun py-source-format ()
+    "Format the given file as a source file."
+    (interactive)
+    (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
+    (insert "''' ========================================================================\n")
+    (insert "   $File: $\n")
+    (insert "   $Date: $\n")
+    (insert "   $Revision: $\n")
+    (insert "   $Creator: Marsel Akhmadullin $\n")
+    (insert "   ======================================================================== '''\n\n")
+    )
+
+  (cond ((file-exists-p buffer-file-name) t)
+        ((string-match "[.]py" buffer-file-name) (py-source-format)))
+  )
