@@ -28,7 +28,15 @@
 (modify-face 'font-lock-note-face "Dark green" nil nil t nil t nil nil)
 
 (interactive)
+(setq display-time-day-and-date 1)
+(setq display-time-format "%A %d.%m.%y %H:%M")
 (display-time)
+
+(set-face-foreground 'mode-line "black")
+(set-face-background 'mode-line "grey")
+(set-face-background 'mode-line-inactive "black")
+(set-face-foreground 'mode-line-inactive "white")
+
 (tooltip-mode      -1)
 (menu-bar-mode     -1)
 (tool-bar-mode     -1)
