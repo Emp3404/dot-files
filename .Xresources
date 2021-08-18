@@ -1,0 +1,37 @@
+URxvt.scrollBar: false
+URxvt.font: xft:Droid Sans Mono:size=14
+
+! Background color
+URxvt*background: #262626
+
+! Font color
+URxvt*foreground: #DAB98F
+
+! Other colors
+URxvt*color0: #000000
+URxvt*color1: #AA0000
+URxvt*color2: #006400
+URxvt*color3: #AA5500
+URxvt*color4: #CD950C
+URxvt*color5: #AA00AA
+URxvt*color6: #00AAAA
+URxvt*color7: #AAAAAA
+URxvt*color8: #555555
+URxvt*color9: #FF5555
+URxvt*color10: #55FF55
+URxvt*color11: #FFFF55
+URxvt*color12: #CD950C
+URxvt*color13: #FF55FF
+URxvt*color14: #55FFFF
+URxvt*color15: #FFFFFF
+
+! Max lines
+URxvt*saveLines: 9999
+
+! tab bar
+URxvt.perl-ext-common: tabbed
+URxvt.tabbed.autohide: true
+URxvt.tabbed.tabbar-fg: -2
+URxvt.tabbed.tabbar-bg: -1
+URxvt.tabbed.tab-fg:    -2
+URxvt.tabbed.tab-bg:    3
