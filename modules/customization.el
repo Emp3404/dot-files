@@ -15,8 +15,6 @@
 
 (setq fixme-modes '(c++-mode c-mode emacs-lisp-mode python-mode))
 (make-face 'font-lock-todo-face)
-(make-face 'font-lock-fixme-face)
-(make-face 'font-lock-warning-face)
 (make-face 'font-lock-note-face)
 (mapc (lambda (mode)
 	(font-lock-add-keywords
@@ -34,31 +32,33 @@
 
 (set-face-foreground 'mode-line "black")
 (set-face-background 'mode-line "grey")
-(set-face-background 'mode-line-inactive "black")
-(set-face-foreground 'mode-line-inactive "white")
+(set-face-background 'mode-line-inactive "grey15")
+(set-face-foreground 'mode-line-inactive "grey")
 
 (tooltip-mode      -1)
 (menu-bar-mode     -1)
 (tool-bar-mode     -1)
 (scroll-bar-mode   -1)
 (blink-cursor-mode -1)
-(set-foreground-color "burlywood3")
-(set-background-color "gray15")
-(set-cursor-color "#40FF40")
-(global-hl-line-mode 1)
-(column-number-mode)
 
-(set-frame-font (font-spec :family "Droid Sans Mono" :size 15) nil t)
+(set-foreground-color "burlywood3")
+(set-background-color "#1d2021")
+(set-cursor-color "burlywood2")
+
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "grey18")
+
+(column-number-mode)
+(set-frame-font (font-spec :family "Droid Sans Mono" :size 19) nil t)
 (set-face-attribute 'font-lock-builtin-face nil :foreground "#DAB98F")
 (set-face-attribute 'font-lock-comment-face nil :foreground "gray50")
-(set-face-attribute 'font-lock-constant-face nil :foreground "olive drab")
+(set-face-attribute 'font-lock-constant-face nil :foreground "DarkGoldenrod")
 (set-face-attribute 'font-lock-doc-face nil :foreground "gray50")
 (set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3")
-(set-face-attribute 'font-lock-keyword-face nil :foreground "DarkGoldenrod3")
+(set-face-attribute 'font-lock-keyword-face nil :foreground "DarkGoldenrod")
 (set-face-attribute 'font-lock-string-face nil :foreground "olive drab")
-(set-face-attribute 'font-lock-type-face nil :foreground "brown2")
+(set-face-attribute 'font-lock-type-face nil :foreground "cyan4")
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3")
-(set-face-background 'hl-line "gray10")
 
 (delete-selection-mode t)
 (custom-set-variables

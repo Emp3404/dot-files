@@ -21,34 +21,32 @@
 (use-package gh-md)
 
 (add-hook 'c++-mode-hook 'c-hook)
+(add-hook 'c-mode-common-hook 'c-hook)
 (add-hook 'python-mode-hook 'python-hook)
+
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(auto-save-default nil)
- '(auto-save-interval 0)
- '(auto-save-list-file-prefix nil)
- '(auto-save-timeout 0)
- '(auto-show-mode t t)
- '(delete-auto-save-files nil)
- '(delete-old-versions 'other)
- '(imenu-auto-rescan t)
- '(imenu-auto-rescan-maxout 500000)
- '(kept-new-versions 5)
- '(kept-old-versions 5)
- '(make-backup-file-name-function 'ignore)
- '(make-backup-files nil)
- '(mouse-wheel-follow-mouse nil)
- '(mouse-wheel-progressive-speed nil)
- '(mouse-wheel-scroll-amount '(1))
+ '(custom-safe-themes
+   '("123a8dabd1a0eff6e0c48a03dc6fb2c5e03ebc7062ba531543dfbce587e86f2a" default))
  '(package-selected-packages
-   '(nginx-mode haskell-mode go-mode lsp-ivy lsp-ui lsp-mode flycheck magit lua-mode docker-tramp flymd gh-md auto-complete counsel swiper))
+   '(ggtags flycheck-google-cpplint
+	    arduino-mode glsl-mode
+	    qml-mode protobuf-mode
+	    vterm cmake-mode meson-mode
+	    yaml-mode csharp-mode dart-mode
+	    djvu iedit elpy dockerfile-mode
+	    org-bullets pylint nginx-mode
+	    haskell-mode go-mode lsp-ivy
+	    lsp-ui lsp-mode flycheck magit
+	    lua-mode docker-tramp
+	    flymd gh-md auto-complete
+	    counsel swiper))
  '(version-control nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+(use-package org-bullets)
+(add-hook 'org-mode-hook #'org-bullets-mode)
+
+(find-file (concat (getenv "HOME") "/todo.org"))
+
+(global-set-key [f5] 'recompile)
+
+(custom-set-faces)

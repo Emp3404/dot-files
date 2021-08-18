@@ -2,6 +2,7 @@
   (use-package lsp-mode)
   (use-package lsp-ui)
   (use-package lsp-ivy)
+  (use-package ggtags)
   (defun header-format ()
     "Format the given file as a header file."
     (interactive)
@@ -44,6 +45,8 @@
         ((string-match "[.]hpp" buffer-file-name) (header-format))
         ((string-match "[.]c" buffer-file-name) (source-format))
         ((string-match "[.]h" buffer-file-name) (header-format))
-        ((string-match "[.]cpp" buffer-file-name) (source-format)))
+        ((string-match "[.]cpp" buffer-file-name) (source-format))
+	((string-match "[.]cc" buffer-file-name) (source-format)))
   (lsp t)
+  (ggtags-mode 1)
   )

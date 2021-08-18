@@ -1,4 +1,8 @@
 (defun py-hook ()
+  (use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
   (defun py-source-format ()
     "Format the given file as a source file."
     (interactive)
@@ -13,4 +17,7 @@
 
   (cond ((file-exists-p buffer-file-name) t)
         ((string-match "[.]py" buffer-file-name) (py-source-format)))
+  (autoload 'pylint "pylint")
+  (add-hook 'python-mode-hook 'pylint-add-menu-items)
+  (add-hook 'python-mode-hook 'pylint-add-key-bindings)
   )
