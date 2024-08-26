@@ -1,4 +1,31 @@
+;;; customization --- keeps theme configuration and fonts
+;;; Commentary:
+;;; Code:
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(set-frame-font (font-spec
+		 :family "Terminess Nerd Font Mono"
+		 :name "Terminess Nerd Font Mono"
+		 :size 32) nil t)
+;; (set-frame-font (font-spec :family "Droid Sans Mono" :size 22) nil t)
+
+;; (set-face-foreground 'mode-line                                     "black")
+;; (set-face-background 'mode-line                                     "silver")
+;; (set-face-background 'mode-line-inactive                            "grey15")
+;; (set-face-foreground 'mode-line-inactive                            "grey")
+;; (set-foreground-color                                               "burlywood3")
+;; (set-background-color                                               "#1d2021")
+;; (set-cursor-color                                                   "burlywood3")
+;; (set-face-attribute 'font-lock-builtin-face nil :foreground         "#DAB98F")
+;; (set-face-attribute 'font-lock-comment-face nil :foreground         "gray50")
+;; (set-face-attribute 'font-lock-constant-face nil :foreground        "DarkGoldenrod")
+;; (set-face-attribute 'font-lock-doc-face nil :foreground             "gray50")
+;; (set-face-attribute 'font-lock-function-name-face nil :foreground   "burlywood3")
+;; (set-face-attribute 'font-lock-keyword-face nil :foreground         "DarkGoldenrod")
+;; (set-face-attribute 'font-lock-string-face nil :foreground          "olive drab")
+;; (set-face-attribute 'font-lock-type-face nil :foreground            "cyan4")
+;; (set-face-attribute 'font-lock-variable-name-face nil :foreground   "burlywood3")
+
 (setq-default truncate-lines t)
 (setq truncate-partial-width-windows nil)
 (setq next-line-add-newlines nil)
@@ -13,77 +40,27 @@
 (setq default-tab-size 4)
 (setq default-offset 4)
 
-(setq fixme-modes '(c++-mode c-mode emacs-lisp-mode python-mode))
-(make-face 'font-lock-todo-face)
-(make-face 'font-lock-note-face)
-(mapc (lambda (mode)
-	(font-lock-add-keywords
-	 mode
-	 '(("\\<\\(TODO\\)" 1 'font-lock-todo-face t)
-	   ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
-      fixme-modes)
-(modify-face 'font-lock-todo-face "red3" nil nil t nil t nil nil)
-(modify-face 'font-lock-note-face "Dark green" nil nil t nil t nil nil)
+;; till i don't check time in status bar
+;; (interactive)
+;; (setq display-time-day-and-date 1)
+;; (setq display-time-format "%A %d.%m.%y %H:%M")
+;; (display-time)
 
-(interactive)
-(setq display-time-day-and-date 1)
-(setq display-time-format "%A %d.%m.%y %H:%M")
-(display-time)
+(tooltip-mode        -1)
+(menu-bar-mode       -1)
+(tool-bar-mode       -1)
+(scroll-bar-mode     -1)
+(blink-cursor-mode   -1)
+(global-hl-line-mode  1)
+(column-number-mode   1)
 
-(set-face-foreground 'mode-line "black")
-(set-face-background 'mode-line "grey")
-(set-face-background 'mode-line-inactive "grey15")
-(set-face-foreground 'mode-line-inactive "grey")
-
-(tooltip-mode      -1)
-(menu-bar-mode     -1)
-(tool-bar-mode     -1)
-(scroll-bar-mode   -1)
-(blink-cursor-mode -1)
-
-(set-foreground-color "burlywood3")
-(set-background-color "#1d2021")
-(set-cursor-color "burlywood2")
-
-(global-hl-line-mode 1)
 (set-face-background 'hl-line "grey18")
 
-(column-number-mode)
-(set-frame-font (font-spec :family "Droid Sans Mono" :size 19) nil t)
-(set-face-attribute 'font-lock-builtin-face nil :foreground "#DAB98F")
-(set-face-attribute 'font-lock-comment-face nil :foreground "gray50")
-(set-face-attribute 'font-lock-constant-face nil :foreground "DarkGoldenrod")
-(set-face-attribute 'font-lock-doc-face nil :foreground "gray50")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3")
-(set-face-attribute 'font-lock-keyword-face nil :foreground "DarkGoldenrod")
-(set-face-attribute 'font-lock-string-face nil :foreground "olive drab")
-(set-face-attribute 'font-lock-type-face nil :foreground "cyan4")
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3")
-
 (delete-selection-mode t)
-(custom-set-variables
- '(auto-save-default nil)
- '(auto-save-interval 0)
- '(auto-save-list-file-prefix nil)
- '(auto-save-timeout 0)
- '(auto-show-mode t t)
- '(delete-auto-save-files nil)
- '(delete-old-versions (quote other))
- '(imenu-auto-rescan t)
- '(imenu-auto-rescan-maxout 500000)
- '(kept-new-versions 5)
- '(kept-old-versions 5)
- '(make-backup-file-name-function (quote ignore))
- '(make-backup-files nil)
- '(mouse-wheel-follow-mouse nil)
- '(mouse-wheel-progressive-speed nil)
- '(mouse-wheel-scroll-amount (quote (1)))
- '(package-selected-packages
-   (quote
-    (lsp-ivy lsp-ui lsp-mode flycheck magit lua-mode docker-tramp flymd gh-md auto-complete counsel swiper)))
- '(version-control nil))
 
 (use-package ivy)
+(use-package swiper)
+(use-package counsel)
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
@@ -103,4 +80,4 @@
 (global-set-key (kbd "C-x l") 'counsel-locate)
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-(icomplete-mode t)
+(icomplete-mode 1)

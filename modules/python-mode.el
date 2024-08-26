@@ -1,23 +1,28 @@
 (defun py-hook ()
-  (use-package elpy
-  :ensure t
-  :init
-  (elpy-enable))
-  (defun py-source-format ()
-    "Format the given file as a source file."
-    (interactive)
-    (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
-    (insert "''' ========================================================================\n")
-    (insert "   $File: $\n")
-    (insert "   $Date: $\n")
-    (insert "   $Revision: $\n")
-    (insert "   $Creator: Marsel Akhmadullin $\n")
-    (insert "   ======================================================================== '''\n\n")
+  (use-package lsp-mode
+    :ensure
+    :commands lsp
+    :config
+    (setq lsp-idle-delay 0.5
+          lsp-enable-symbol-highlighting t
+          lsp-enable-snippet nil
+          lsp-pyls-plugins-flake8-enabled t
+	  lsp-completion-provider :none
+	  )
     )
 
-  (cond ((file-exists-p buffer-file-name) t)
-        ((string-match "[.]py" buffer-file-name) (py-source-format)))
-  (autoload 'pylint "pylint")
-  (add-hook 'python-mode-hook 'pylint-add-menu-items)
-  (add-hook 'python-mode-hook 'pylint-add-key-bindings)
+  (use-package lsp-ui
+    :config (setq lsp-ui-sideline-show-hover t
+                  lsp-ui-sideline-delay 0.5
+                  lsp-ui-doc-delay 5
+                  lsp-ui-sideline-ignore-duplicates t
+                  lsp-ui-doc-position 'bottom
+                  lsp-ui-doc-alignment 'frame
+                  lsp-ui-doc-header nil
+                  lsp-ui-doc-include-signature t
+                  lsp-ui-doc-use-childframe t)
+    :commands lsp-ui-mode)
+  
+  (lsp t)
+
   )

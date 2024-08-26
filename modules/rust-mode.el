@@ -1,7 +1,6 @@
 (defun rust-hook()
   (use-package rustic)
   ;; (setq rustic-lsp-client 'lsp-mode)
-  
   (use-package lsp-mode
     :ensure
     :commands lsp

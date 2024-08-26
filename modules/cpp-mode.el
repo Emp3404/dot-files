@@ -1,52 +1,30 @@
+;;; cpp-mode --- major modes for cpp development
+;;; Commentary:
+;;; Code:
 (defun c-hook ()
-  (use-package lsp-mode)
-  (use-package lsp-ui)
-  (use-package lsp-ivy)
-  (use-package ggtags)
-  (defun header-format ()
-    "Format the given file as a header file."
-    (interactive)
-    (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
-    (insert "#if !defined(")
-    (push-mark)
-    (insert BaseFileName)
-    (upcase-region (mark) (point))
-    (pop-mark)
-    (insert "_H)\n")
-    (insert "/* ========================================================================\n")
-    (insert "   $File: $\n")
-    (insert "   $Date: $\n")
-    (insert "   $Revision: $\n")
-    (insert "   $Creator: Marsel Akhmadullin $\n")
-    (insert "   ======================================================================== */\n")
-    (insert "\n")
-    (insert "#define ")
-    (push-mark)
-    (insert BaseFileName)
-    (upcase-region (mark) (point))
-    (pop-mark)
-    (insert "_H\n")
-    (insert "#endif")
-    )
+  (use-package lsp-mode
+    :ensure
+    :commands lsp
+    :config (setq
+	     lsp-idle-delay 0.5 ;; default value
+	     lsp-enable-symbol-highlighting t
+	     lsp-enable-snippet nil
+	     lsp-lens-enable nil
+	     lsp-headerline-breadcrumb-enable t
+	     lsp-signature-render-documentation nil
+	     lsp-signature-auto-activate nil
+	     lsp-eldoc-enable-hover nil
+	     lsp-completion-provider :none))
 
-  (defun source-format ()
-    "Format the given file as a source file."
-    (interactive)
-    (setq BaseFileName (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
-    (insert "/* ========================================================================\n")
-    (insert "   $File: $\n")
-    (insert "   $Date: $\n")
-    (insert "   $Revision: $\n")
-    (insert "   $Creator: Marsel Akhmadullin $\n")
-    (insert "   ======================================================================== */\n\n")
-    )
-
-  (cond ((file-exists-p buffer-file-name) t)
-        ((string-match "[.]hpp" buffer-file-name) (header-format))
-        ((string-match "[.]c" buffer-file-name) (source-format))
-        ((string-match "[.]h" buffer-file-name) (header-format))
-        ((string-match "[.]cpp" buffer-file-name) (source-format))
-	((string-match "[.]cc" buffer-file-name) (source-format)))
-  (lsp t)
-  (ggtags-mode 1)
-  )
+  (use-package lsp-ui
+    :commands lsp-ui-mode)
+    :config (setq
+	     lsp-ui-sideline-show-hover nil
+	     lsp-ui-sideline-show-diagnostics t
+	     lsp-ui-sideline-show-code-actions t
+	     lsp-ui-doc-enable nil
+	     lsp-ui-doc-show-with-mouse nil
+	     lsp-ui-doc-show-with-cursor nil
+	     lsp-ui-sideline-ignore-duplicates t)
+    (lsp t))
+;;; cpp-mode.el ends here
